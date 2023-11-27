@@ -34,35 +34,6 @@ background_texture = ExtResource("2_4qq06")
 script = ExtResource("3_cqc0r")
 asteroid_textures = Array[Texture]([ExtResource("5_5c441"), ExtResource("6_443fh"), ExtResource("7_65peg"), ExtResource("8_o6x3f"), ExtResource("9_66qj1"), ExtResource("10_rra3l"), ExtResource("11_7ub54"), ExtResource("12_rg70g"), ExtResource("13_hbgj6"), ExtResource("14_27gxw"), ExtResource("15_vgkw3"), ExtResource("16_84hgw"), ExtResource("17_5uxov"), ExtResource("18_tecbi"), ExtResource("19_1ouad"), ExtResource("20_7tbaq")])
 
-[node name="Points" type="Node2D" parent="Asteroids"]
-
-[node name="Marker2D" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(38, -205)
-
-[node name="Marker2D2" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(120, -205)
-
-[node name="Marker2D3" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(239, -205)
-
-[node name="Marker2D4" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(358, -205)
-
-[node name="Marker2D5" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(520, -205)
-
-[node name="Marker2D6" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(606, -205)
-
-[node name="Marker2D7" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(487, -205)
-
-[node name="Marker2D8" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(286, -205)
-
-[node name="Marker2D9" type="Marker2D" parent="Asteroids/Points"]
-position = Vector2(161, -205)
-
 [node name="Asteroids" type="Node2D" parent="Asteroids"]
 
 [node name="Timer" type="Timer" parent="Asteroids"]
