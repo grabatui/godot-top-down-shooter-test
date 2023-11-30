@@ -1,13 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://d15h4mm4cc781"]
+[gd_scene load_steps=4 format=3 uid="uid://d15h4mm4cc781"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/player.gd" id="1_bwfyb"]
 [ext_resource type="Texture2D" uid="uid://c16ptmsua30hm" path="res://Resources/PNG/playerShip3_blue.png" id="1_ml2i6"]
+[ext_resource type="Texture2D" uid="uid://wq3bnv1rwlau" path="res://Resources/PNG/Lasers/laserBlue01.png" id="2_78pwn"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_bwfyb")
+laser_projectile = ExtResource("2_78pwn")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-50, 27, -1, -39, 49, 26, 0, 38)
 
 [node name="PlayerShip3Blue" type="Sprite2D" parent="."]
 texture = ExtResource("1_ml2i6")
+
+[node name="ShootMarker" type="Marker2D" parent="."]
+position = Vector2(0, -38)

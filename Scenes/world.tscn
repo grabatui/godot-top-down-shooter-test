@@ -22,8 +22,9 @@
 [ext_resource type="Texture2D" uid="uid://da8mvwow10ohu" path="res://Resources/PNG/Meteors/meteorGrey_small1.png" id="19_1ouad"]
 [ext_resource type="Texture2D" uid="uid://dwq8rikipgwyo" path="res://Resources/PNG/Meteors/meteorGrey_small2.png" id="20_7tbaq"]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_r6emj")
+player = NodePath("Player")
 
 [node name="Background" type="Node2D" parent="."]
 z_index = -10
@@ -41,5 +42,7 @@ asteroid_textures = Array[Texture]([ExtResource("5_5c441"), ExtResource("6_443fh
 [node name="Player" parent="." instance=ExtResource("1_0q8et")]
 z_index = 10
 position = Vector2(337, 891)
+
+[node name="Lasers" type="Node2D" parent="."]
 
 [connection signal="timeout" from="Asteroids/Timer" to="Asteroids" method="_on_timer_timeout"]
