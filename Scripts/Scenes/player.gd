@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 
-const INITIAL_SPEED = 150.0
+const INITIAL_SPEED = 170.0
 const INITIAL_LASER_SPEED = 400.0
 const INITIAL_SHOOT_SECONDS_INTERVAL = 1.3
 const ADDITIONAL_BORDER = 10.0
