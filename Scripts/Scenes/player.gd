@@ -2,7 +2,6 @@ extends CharacterBody2D
 class_name Player
 
 
-const INITIAL_SPEED = 170.0
 const INITIAL_LASER_SPEED = 400.0
 const INITIAL_SHOOT_SECONDS_INTERVAL = 1.3
 const ADDITIONAL_BORDER = 10.0
@@ -13,7 +12,6 @@ const ADDITIONAL_BORDER = 10.0
 @onready var shoot_timer: Timer = $ShootTimer
 
 
-@export var speed: float = INITIAL_SPEED
 @export var laser_speed: float = INITIAL_LASER_SPEED
 @export var shoot_seconds_interval: float = INITIAL_SHOOT_SECONDS_INTERVAL
 @export var laser_projectile: Texture
@@ -39,14 +37,16 @@ func _process(_delta):
 		__start_shoot_timer()
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var mouse_position: Vector2 = get_global_mouse_position()
-
-	velocity = Vector2(mouse_position.x - global_position.x, 0) * (speed * delta)
+	
+	position = Vector2(mouse_position.x, position.y)
 
 	# Do not move out borders
-	if (mouse_position.x > right_border and position.x >= right_border) or (mouse_position.x < left_border and position.x <= left_border):
-		velocity = Vector2.ZERO
+	if mouse_position.x > right_border and position.x >= right_border:
+		position = Vector2(right_border, position.y)
+	elif mouse_position.x < left_border and position.x <= left_border:
+		position = Vector2(left_border, position.y)
 
 	move_and_slide()
 

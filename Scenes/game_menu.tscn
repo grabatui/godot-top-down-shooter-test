@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2ygna7pstx7w"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/game_menu.gd" id="1_sxedn"]
+[ext_resource type="PackedScene" uid="uid://kat7w18fmmey" path="res://Scenes/background.tscn" id="2_xugw7"]
+
+[sub_resource type="Theme" id="Theme_xjq61"]
+default_base_scale = 1.0
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_4mpj5"]
+default_font_size = 30
+
+[node name="GameMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sxedn")
+
+[node name="Background" parent="." instance=ExtResource("2_xugw7")]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="ContinueGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_xjq61")
+text = "Continue"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_4mpj5")
+text = "Quit"
+
+[connection signal="button_down" from="CenterContainer/VBoxContainer/ContinueGameButton" to="." method="_on_start_game_button_button_down" flags=18]
+[connection signal="button_down" from="CenterContainer/VBoxContainer/ContinueGameButton" to="." method="_on_continue_game_button_button_down"]
+[connection signal="button_down" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_button_down" flags=18]
