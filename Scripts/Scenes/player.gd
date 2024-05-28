@@ -21,10 +21,12 @@ var player_size: Vector2
 var left_border: float
 var right_border: float
 
-var shoot_wait: bool = false
+var shoot_wait: bool = true
 
 
 func _ready():
+	__set_start_shoot()
+
 	player_size = player_sprite.texture.get_size()
 	left_border = (player_size.x / 2) + ADDITIONAL_BORDER
 	right_border = (ProjectSettings.get('display/window/size/viewport_width') - (player_size.x / 2)) - ADDITIONAL_BORDER
@@ -56,6 +58,12 @@ func __start_shoot_timer() -> void:
 	shoot_timer.start()
 
 	shoot_wait = true
+
+
+func __set_start_shoot() -> void:
+	await get_tree().create_timer(0.1).timeout
+
+	shoot_wait = false
 
 
 func _on_shoot_timer_timeout():

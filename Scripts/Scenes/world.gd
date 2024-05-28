@@ -5,7 +5,6 @@ const LASER_QUIT_ADDITIONAL: float = 50.0
 
 
 var laser_projectile_template: Sprite2D
-var shooting_enabled: bool = false
 
 
 @onready var player_lasers: Node2D = $Lasers
@@ -44,9 +43,6 @@ func __set_laser_projectile_template() -> void:
 
 
 func __on_player_shoot(marker_position: Vector2) -> void:
-	if not shooting_enabled:
-		return
-
 	var laser: Sprite2D = laser_projectile_template.duplicate()
 	laser.global_position = marker_position
 
@@ -67,7 +63,3 @@ func __on_menu_continue_pressed() -> void:
 	get_tree().paused = false
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
-
-
-func _on_enable_shooting_timer_timeout():
-	shooting_enabled = true
