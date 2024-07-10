@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://d15h4mm4cc781"]
+[gd_scene load_steps=5 format=3 uid="uid://d15h4mm4cc781"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/player.gd" id="1_bwfyb"]
 [ext_resource type="Texture2D" uid="uid://c16ptmsua30hm" path="res://Resources/PNG/playerShip3_blue.png" id="1_ml2i6"]
 [ext_resource type="Texture2D" uid="uid://wq3bnv1rwlau" path="res://Resources/PNG/Lasers/laserBlue01.png" id="2_78pwn"]
+[ext_resource type="PackedScene" uid="uid://dl4udy77gcpak" path="res://Scenes/laser_body.tscn" id="3_vw26g"]
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 10
 script = ExtResource("1_bwfyb")
 laser_projectile = ExtResource("2_78pwn")
+laser_body = ExtResource("3_vw26g")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-50, 27, -1, -39, 49, 26, 0, 38)

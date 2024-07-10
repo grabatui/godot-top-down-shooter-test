@@ -3,7 +3,7 @@ class_name Player
 
 
 const INITIAL_LASER_SPEED = 400.0
-const INITIAL_SHOOT_SECONDS_INTERVAL = 1.3
+const INITIAL_SHOOT_SECONDS_INTERVAL = 1.0
 const ADDITIONAL_BORDER = 10.0
 
 
@@ -15,6 +15,7 @@ const ADDITIONAL_BORDER = 10.0
 @export var laser_speed: float = INITIAL_LASER_SPEED
 @export var shoot_seconds_interval: float = INITIAL_SHOOT_SECONDS_INTERVAL
 @export var laser_projectile: Texture
+@export var laser_body: PackedScene
 
 
 var player_size: Vector2

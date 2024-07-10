@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bghh3vg3n6lle"]
+[gd_scene load_steps=27 format=3 uid="uid://bghh3vg3n6lle"]
 
 [ext_resource type="PackedScene" uid="uid://d15h4mm4cc781" path="res://Scenes/player.tscn" id="1_0q8et"]
 [ext_resource type="Script" path="res://Scripts/Scenes/world.gd" id="1_r6emj"]
@@ -21,6 +21,18 @@
 [ext_resource type="Texture2D" uid="uid://0e2dwux1dtot" path="res://Resources/PNG/Meteors/meteorGrey_med2.png" id="18_tecbi"]
 [ext_resource type="Texture2D" uid="uid://da8mvwow10ohu" path="res://Resources/PNG/Meteors/meteorGrey_small1.png" id="19_1ouad"]
 [ext_resource type="Texture2D" uid="uid://dwq8rikipgwyo" path="res://Resources/PNG/Meteors/meteorGrey_small2.png" id="20_7tbaq"]
+[ext_resource type="PackedScene" uid="uid://bsxdlepd6jr13" path="res://Scenes/Enemy/enemy_1.tscn" id="22_lgctu"]
+[ext_resource type="Script" path="res://Scenes/Scenario.gd" id="22_m27u4"]
+[ext_resource type="Script" path="res://Scripts/Resources/enemy_path.gd" id="23_3gehu"]
+[ext_resource type="Curve2D" uid="uid://ce8aiwyb4hkbc" path="res://PathCurves/path_1_curve.tres" id="23_kg34f"]
+
+[sub_resource type="Resource" id="Resource_1apdx"]
+script = ExtResource("23_3gehu")
+enemy = "enemy_1"
+count = 3
+path_curve = ExtResource("23_kg34f")
+delay_between_enemies = 1
+delay_between_paths = 5
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_r6emj")
@@ -56,6 +68,25 @@ asteroid_textures = Array[Texture]([ExtResource("5_5c441"), ExtResource("6_443fh
 z_index = 10
 position = Vector2(337, 891)
 
+[node name="EnemyPaths" type="Node2D" parent="."]
+
 [node name="Lasers" type="Node2D" parent="."]
+
+[node name="Scenario" type="Node2D" parent="."]
+script = ExtResource("22_m27u4")
+paths = Array[ExtResource("23_3gehu")]([SubResource("Resource_1apdx")])
+
+[node name="Paths" type="Node2D" parent="."]
+
+[node name="Path 1" type="Path2D" parent="Paths"]
+visible = false
+curve = ExtResource("23_kg34f")
+
+[node name="AllEnemies" type="Node2D" parent="."]
+position = Vector2(337, -218)
+
+[node name="enemy_1" parent="AllEnemies" instance=ExtResource("22_lgctu")]
+visible = false
+speed = 200.0
 
 [connection signal="timeout" from="Asteroids/Timer" to="Asteroids" method="_on_timer_timeout"]
