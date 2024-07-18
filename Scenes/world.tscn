@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://bghh3vg3n6lle"]
+[gd_scene load_steps=31 format=3 uid="uid://bghh3vg3n6lle"]
 
 [ext_resource type="PackedScene" uid="uid://d15h4mm4cc781" path="res://Scenes/player.tscn" id="1_0q8et"]
 [ext_resource type="Script" path="res://Scripts/Scenes/world.gd" id="1_r6emj"]
 [ext_resource type="PackedScene" uid="uid://kat7w18fmmey" path="res://Scenes/background.tscn" id="2_7y7m7"]
 [ext_resource type="PackedScene" uid="uid://b2ygna7pstx7w" path="res://Scenes/game_menu.tscn" id="2_bcsf1"]
 [ext_resource type="Script" path="res://Scripts/Scenes/asteroids.gd" id="3_cqc0r"]
+[ext_resource type="PackedScene" uid="uid://bsvchf8633rht" path="res://Scenes/interface.tscn" id="3_l34g0"]
 [ext_resource type="Texture2D" uid="uid://bgyq4xh6k0y2u" path="res://Resources/PNG/Meteors/meteorBrown_big1.png" id="5_5c441"]
 [ext_resource type="Texture2D" uid="uid://dquc5nocxujji" path="res://Resources/PNG/Meteors/meteorBrown_big2.png" id="6_443fh"]
 [ext_resource type="Texture2D" uid="uid://drmjhheny5ao5" path="res://Resources/PNG/Meteors/meteorBrown_big3.png" id="7_65peg"]
@@ -24,15 +25,30 @@
 [ext_resource type="PackedScene" uid="uid://bsxdlepd6jr13" path="res://Scenes/Enemy/enemy_1.tscn" id="22_lgctu"]
 [ext_resource type="Script" path="res://Scenes/Scenario.gd" id="22_m27u4"]
 [ext_resource type="Script" path="res://Scripts/Resources/enemy_path.gd" id="23_3gehu"]
-[ext_resource type="Curve2D" uid="uid://ce8aiwyb4hkbc" path="res://PathCurves/path_1_curve.tres" id="23_kg34f"]
+[ext_resource type="Curve2D" uid="uid://c31vn2254ehy6" path="res://PathCurves/path_2_curve.tres" id="25_1qd13"]
+[ext_resource type="PackedScene" uid="uid://bm7c4das5q0ax" path="res://Scenes/Enemy/enemy_2.tscn" id="26_rebkw"]
 
 [sub_resource type="Resource" id="Resource_1apdx"]
 script = ExtResource("23_3gehu")
 enemy = "enemy_1"
+count = 5
+path = "path_1"
+delay_between_enemies = 1.0
+delay_between_paths = 3.0
+
+[sub_resource type="Resource" id="Resource_5x1yx"]
+script = ExtResource("23_3gehu")
+enemy = "enemy_2"
 count = 3
-path_curve = ExtResource("23_kg34f")
-delay_between_enemies = 1
-delay_between_paths = 5
+path = "path_2"
+delay_between_enemies = 1.5
+delay_between_paths = 3.0
+
+[sub_resource type="Curve2D" id="Curve2D_d6ia8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -182, 63, -144.891, -212.927, 144.891, 212.927, 937, 149, 0, 0, 0, 0, 867, 426, 0, 333.879, 0, -333.879, -67, 121, -177.649, -27.7183, 177.649, 27.7183, -105, 555, -217.966, -277.183, 217.966, 277.183, 735, 427, -119.693, 330.099, 119.693, -330.099, 858, 685, 97.0139, 413.254, -97.0139, -413.254, -137, 579)
+}
+point_count = 8
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_r6emj")
@@ -51,6 +67,8 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.258824)
 
 [node name="GameMenu" parent="Menu" instance=ExtResource("2_bcsf1")]
+
+[node name="Interface" parent="." instance=ExtResource("3_l34g0")]
 
 [node name="Background" parent="." instance=ExtResource("2_7y7m7")]
 process_mode = 3
@@ -74,19 +92,28 @@ position = Vector2(337, 891)
 
 [node name="Scenario" type="Node2D" parent="."]
 script = ExtResource("22_m27u4")
-paths = Array[ExtResource("23_3gehu")]([SubResource("Resource_1apdx")])
+paths = Array[ExtResource("23_3gehu")]([SubResource("Resource_1apdx"), SubResource("Resource_5x1yx")])
 
 [node name="Paths" type="Node2D" parent="."]
 
-[node name="Path 1" type="Path2D" parent="Paths"]
+[node name="path_1" type="Path2D" parent="Paths"]
 visible = false
-curve = ExtResource("23_kg34f")
+position = Vector2(-23, 48)
+curve = SubResource("Curve2D_d6ia8")
+
+[node name="path_2" type="Path2D" parent="Paths"]
+visible = false
+curve = ExtResource("25_1qd13")
 
 [node name="AllEnemies" type="Node2D" parent="."]
 position = Vector2(337, -218)
 
 [node name="enemy_1" parent="AllEnemies" instance=ExtResource("22_lgctu")]
 visible = false
-speed = 200.0
+speed = 250.0
+
+[node name="enemy_2" parent="AllEnemies" instance=ExtResource("26_rebkw")]
+visible = false
+points = 150
 
 [connection signal="timeout" from="Asteroids/Timer" to="Asteroids" method="_on_timer_timeout"]

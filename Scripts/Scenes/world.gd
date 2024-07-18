@@ -12,6 +12,8 @@ var laser_projectile_template: Sprite2D
 @onready var scenario: Scenario = $Scenario
 @onready var enemy_paths: Node2D = $EnemyPaths
 @onready var enemy_templates: Node2D = $AllEnemies
+@onready var path_templates: Node2D = $Paths
+@onready var score: Label = $Interface/%GlobalScore
 
 
 @export var player: Player
@@ -25,6 +27,7 @@ func _ready():
 
 	SignalsBus.player_shoot.connect(__on_player_shoot)
 	SignalsBus.game_menu_button_continue_pressed.connect(__on_menu_continue_pressed)
+	SignalsBus.enemy_dead.connect(__on_enemy_dead)
 
 
 func _process(delta):
@@ -57,8 +60,8 @@ func __set_enemies() -> void:
 	var path_follow: PathFollow2D
 	var enemy_entity: Enemy
 	for scenario_path in scenario.paths:
-		enemy_path = Path2D.new()
-		enemy_path.curve = scenario_path.path_curve
+		enemy_path = path_templates.get_node(scenario_path.path).duplicate()
+		enemy_path.show()
 
 		enemy_paths.add_child(enemy_path)
 
@@ -75,7 +78,17 @@ func __set_enemies() -> void:
 			path_follow.add_child(enemy_entity)
 
 			if i < scenario_path.count:
-				await get_tree().create_timer(scenario_path.delay_between_enemies).timeout
+				await __wait_for_seconds(scenario_path.delay_between_enemies)
+
+		await __wait_for_seconds(scenario_path.delay_between_paths)
+
+
+func __show_menu() -> void:
+	menu.show()
+
+	get_tree().paused = true
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 
 
 func __on_player_shoot(marker_position: Vector2) -> void:
@@ -88,17 +101,19 @@ func __on_player_shoot(marker_position: Vector2) -> void:
 	player_lasers.add_child(laser)
 
 
-func __show_menu() -> void:
-	menu.show()
-
-	get_tree().paused = true
-	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-
-
 func __on_menu_continue_pressed() -> void:
 	menu.hide()
 
 	get_tree().paused = false
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+
+
+func __on_enemy_dead(enemy: Enemy) -> void:
+	Globals.score += enemy.points
+
+	score.text = str(Globals.score)
+
+
+func __wait_for_seconds(seconds: float) -> Signal:
+	return get_tree().create_timer(seconds).timeout

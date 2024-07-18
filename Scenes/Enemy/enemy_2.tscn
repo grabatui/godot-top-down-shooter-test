@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm7c4das5q0ax"]
+
+[ext_resource type="PackedScene" uid="uid://dyqyxlndcigbb" path="res://Scenes/enemy.tscn" id="1_3vof3"]
+[ext_resource type="Texture2D" uid="uid://cjot2tuhpbo1c" path="res://Resources/PNG/Enemies/enemyBlack2.png" id="2_bkckl"]
+
+[node name="Enemy 1" instance=ExtResource("1_3vof3")]
+speed = 150.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+polygon = PackedVector2Array(-34, -15, -1, -42, 33, -15, 50, -15, 51, -7, 25, 41, -23, 41, -50, -7, -51, -15)
+
+[node name="EnemyBlack1" type="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_bkckl")
