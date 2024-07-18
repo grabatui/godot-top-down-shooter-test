@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg8x3amknmbj6"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/laser_body.gd" id="1_6aufu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t60xt"]
+radius = 4.0
+height = 46.0
+
+[node name="LaserBody" type="StaticBody2D"]
+collision_layer = 8
+script = ExtResource("1_6aufu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_t60xt")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)

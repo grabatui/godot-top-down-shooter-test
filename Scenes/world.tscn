@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bghh3vg3n6lle"]
+[gd_scene load_steps=33 format=3 uid="uid://bghh3vg3n6lle"]
 
 [ext_resource type="PackedScene" uid="uid://d15h4mm4cc781" path="res://Scenes/player.tscn" id="1_0q8et"]
 [ext_resource type="Script" path="res://Scripts/Scenes/world.gd" id="1_r6emj"]
@@ -27,6 +27,8 @@
 [ext_resource type="Script" path="res://Scripts/Resources/enemy_path.gd" id="23_3gehu"]
 [ext_resource type="Curve2D" uid="uid://c31vn2254ehy6" path="res://PathCurves/path_2_curve.tres" id="25_1qd13"]
 [ext_resource type="PackedScene" uid="uid://bm7c4das5q0ax" path="res://Scenes/Enemy/enemy_2.tscn" id="26_rebkw"]
+[ext_resource type="Texture2D" uid="uid://dgx1lucabw2sw" path="res://Resources/PNG/Lasers/laserRed01.png" id="27_xvxhs"]
+[ext_resource type="PackedScene" uid="uid://cg8x3amknmbj6" path="res://Scenes/enemy_laser_body.tscn" id="28_rme5f"]
 
 [sub_resource type="Resource" id="Resource_1apdx"]
 script = ExtResource("23_3gehu")
@@ -115,5 +117,9 @@ speed = 250.0
 [node name="enemy_2" parent="AllEnemies" instance=ExtResource("26_rebkw")]
 visible = false
 points = 150
+can_shoot = true
+shoot_speed = 1.8
+laser_projectile = ExtResource("27_xvxhs")
+laser_body = ExtResource("28_rme5f")
 
 [connection signal="timeout" from="Asteroids/Timer" to="Asteroids" method="_on_timer_timeout"]

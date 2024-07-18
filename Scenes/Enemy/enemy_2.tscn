@@ -11,3 +11,6 @@ polygon = PackedVector2Array(-34, -15, -1, -42, 33, -15, 50, -15, 51, -7, 25, 41
 
 [node name="EnemyBlack1" type="Sprite2D" parent="." index="2"]
 texture = ExtResource("2_bkckl")
+
+[node name="ShootMarker" type="Marker2D" parent="." index="3"]
+position = Vector2(0, 41)

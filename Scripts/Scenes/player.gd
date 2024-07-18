@@ -7,6 +7,13 @@ const INITIAL_SHOOT_SECONDS_INTERVAL = 1.0
 const ADDITIONAL_BORDER = 10.0
 
 
+var player_size: Vector2
+var left_border: float
+var right_border: float
+
+var shoot_wait: bool = true
+
+
 @onready var player_sprite: Sprite2D = $PlayerShip3Blue
 @onready var shoot_marker: Marker2D = $ShootMarker
 @onready var shoot_timer: Timer = $ShootTimer
@@ -16,13 +23,6 @@ const ADDITIONAL_BORDER = 10.0
 @export var shoot_seconds_interval: float = INITIAL_SHOOT_SECONDS_INTERVAL
 @export var laser_projectile: Texture
 @export var laser_body: PackedScene
-
-
-var player_size: Vector2
-var left_border: float
-var right_border: float
-
-var shoot_wait: bool = true
 
 
 func _ready():
@@ -40,7 +40,7 @@ func _process(_delta):
 		__start_shoot_timer()
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	var mouse_position: Vector2 = get_global_mouse_position()
 	
 	position = Vector2(mouse_position.x, position.y)
@@ -52,6 +52,16 @@ func _physics_process(_delta):
 		position = Vector2(left_border, position.y)
 
 	move_and_slide()
+	
+	__process_collision(delta)
+
+
+func die() -> void:
+	queue_free()
+
+
+func _on_shoot_timer_timeout():
+	shoot_wait = false
 
 
 func __start_shoot_timer() -> void:
@@ -67,5 +77,9 @@ func __set_start_shoot() -> void:
 	shoot_wait = false
 
 
-func _on_shoot_timer_timeout():
-	shoot_wait = false
+func __process_collision(delta) -> void:
+	var collision = move_and_collide(velocity * delta)
+
+	if collision:
+		if collision.get_collider() is LaserBody:
+			SignalsBus.player_dead.emit()

@@ -7,7 +7,7 @@ const LASER_QUIT_ADDITIONAL: float = 50.0
 var laser_projectile_template: Sprite2D
 
 
-@onready var player_lasers: Node2D = $Lasers
+@onready var lasers: Node2D = $Lasers
 @onready var menu: CanvasLayer = $Menu
 @onready var scenario: Scenario = $Scenario
 @onready var enemy_paths: Node2D = $EnemyPaths
@@ -26,15 +26,17 @@ func _ready():
 	__set_enemies()
 
 	SignalsBus.player_shoot.connect(__on_player_shoot)
+	SignalsBus.enemy_shoot.connect(__on_enemy_shoot)
 	SignalsBus.game_menu_button_continue_pressed.connect(__on_menu_continue_pressed)
+	SignalsBus.player_dead.connect(__on_player_dead)
 	SignalsBus.enemy_dead.connect(__on_enemy_dead)
 
 
 func _process(delta):
-	for laser in player_lasers.get_children():
-		laser.position.y -= player.laser_speed * delta
+	for laser in lasers.get_children():
+		laser.position.y -= player.laser_speed * delta * laser.direction
 
-		if laser.position.y < (-1 * LASER_QUIT_ADDITIONAL):
+		if laser.position.y < (-1 * LASER_QUIT_ADDITIONAL) or (laser.position.y > get_viewport_rect().size.y + LASER_QUIT_ADDITIONAL):
 			laser.queue_free()
 
 	for enemy_path in enemy_paths.get_children():
@@ -92,13 +94,26 @@ func __show_menu() -> void:
 
 
 func __on_player_shoot(marker_position: Vector2) -> void:
-	var laser: StaticBody2D = player.laser_body.instantiate()
+	var laser: LaserBody = player.laser_body.instantiate()
 	var laser_sprite: Sprite2D = laser_projectile_template.duplicate()
 
 	laser.add_child(laser_sprite)
 	laser.global_position = marker_position
 
-	player_lasers.add_child(laser)
+	lasers.add_child(laser)
+
+
+func __on_enemy_shoot(enemy: Enemy) -> void:
+	var laser: LaserBody = enemy.laser_body.instantiate()
+	var laser_sprite: Sprite2D = enemy.laser_projectile_template.duplicate()
+
+	laser_sprite.flip_v = true
+
+	laser.direction = -1
+	laser.add_child(laser_sprite)
+	laser.global_position = enemy.shoot_marker.global_position
+
+	lasers.add_child(laser)
 
 
 func __on_menu_continue_pressed() -> void:
@@ -107,6 +122,12 @@ func __on_menu_continue_pressed() -> void:
 	get_tree().paused = false
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+
+
+func __on_player_dead() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+
+	get_tree().change_scene_to_file('res://Scenes/main_menu.tscn')
 
 
 func __on_enemy_dead(enemy: Enemy) -> void:
